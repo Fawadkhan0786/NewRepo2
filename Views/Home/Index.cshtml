@@ -1,0 +1,83 @@
+﻿@model IEnumerable<MasterCRUDOperation.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+@Html.Raw(TempData["DeleteMessage"])
+@Html.Raw(TempData["UpdateMessage"])
+@Html.Raw(TempData["InsertMessage"])
+
+<button class="btn btn-success" data-bs-toggle="modal"data-bs-target="#exampleModal" >
+    @Html.ActionLink("Create New", "Create")
+</button>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CategoryId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CategoryName)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ProductId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ProductId })
+            </td>
+        </tr>
+    }
+
+</table>
+<div class="row">
+    <div class="col-md-12">
+        @{
+            double totalPages = ViewBag.TotalPages;
+
+            for (int i = 1; i <= totalPages; i++)
+            {
+
+
+                <ul class="pagination">
+                    @if (i == ViewBag.PageNumber)
+                    {
+                        <li class="active">
+                            @Html.ActionLink(i.ToString(), "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "ProductName" : ViewBag.SortBy, PageNumber = i });
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            @Html.ActionLink(i.ToString(), "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "ProductName" : ViewBag.SortBy, PageNumber = i });
+                        </li>
+                    }
+                </ul>
+            }
+        }
+    </div>
+</div>
+
